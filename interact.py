@@ -7,9 +7,11 @@ import pickle
 import json 
 import sys
 import datefinder
+from utils import extract_df
 
-SCOPES = ['https://www.googleapis.com/auth/calendar']
+SCOPES = ['https://www.googleapis.com/auth/calendar.events']
 
+#better option would be to create a class
 def get_service():
     creds = None
     if os.path.exists('token.pickle'):
@@ -44,23 +46,20 @@ def list_events(service):
         print(start,event['summary'])
 
 def insert_events(service):
-    with open('foo.json') as f:
-        data = json.load(f)
     today = datetime.today()
-    start = today.weekday() % 6 +1 
+    start = today.weekday() % 6 + 1
+    df = extract_df('timetable.pdf')    
     #filling up one date completely first
     for day in range(start,7):
-        for dtime in range(1,8): 
-            summary = data[dtime][str(day)]
-            tis = data[dtime]['0'].split()[0]
-            tie = data[dtime]['0'].split()[2]
-            start_time = next(datefinder.find_dates(str(datetime.date(today)) + f' {tis} pm'))
-            end_time = next(datefinder.find_dates(str(datetime.date(today)) + f' {tie} pm'))
+        for dtime in range(1,9): 
+            summary = df[day][dtime]
+            timing = df[0][dtime].split('to')
+            start_time = next(datefinder.find_dates(str(datetime.date(today)) + f' {timing[0]} pm'))
+            end_time = next(datefinder.find_dates(str(datetime.date(today)) + f' {timing[1]} pm'))
             timezone = 'Asia/Kolkata'
             event = {
                 'summary':summary,
                 'location':'PICT,Pune',
-                'description':'Checking the working of the project',
                 'start':{
                     'dateTime': start_time.isoformat(), 
                     'timeZone': timezone
@@ -74,3 +73,7 @@ def insert_events(service):
         print(f'{datetime.date(today)} done ')
         today = today + timedelta(days=1)
     print('Timetable Successfully uploaded to your Google Calendar')
+
+def delete_event(service,eventId):
+    service.events().delete(calendarId='primary',eventId=eventId).execute()
+

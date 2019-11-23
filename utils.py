@@ -1,6 +1,7 @@
 import camelot
 
-def extract_json(filename):
+def extract_df(filename):
     tables = camelot.read_pdf(filename,pages='4')
-    tables[0].to_json('foo.json')
+    df = tables[0].df
     print('Table successfully extracted')
+    return df
