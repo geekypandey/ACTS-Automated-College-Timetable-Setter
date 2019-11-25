@@ -45,11 +45,10 @@ def list_events(service):
         start = event['start'].get('dateTime',event['start'].get('date'))
         print(start,event['summary'])
 
-def insert_events(service):
+def insert_events(service,df):
     eventIds = []
     today = datetime.today()
     start = today.weekday() % 6 + 1
-    df = extract_df('timetable.pdf')    
     #filling up one date completely first
     for day in range(start,7):
         for dtime in range(1,9): 
