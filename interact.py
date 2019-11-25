@@ -46,13 +46,20 @@ def list_events(service):
         print(start,event['summary'])
 
 def insert_events(service):
+    eventIds = []
     today = datetime.today()
     start = today.weekday() % 6 + 1
     df = extract_df('timetable.pdf')    
     #filling up one date completely first
     for day in range(start,7):
         for dtime in range(1,9): 
-            summary = df[day][dtime]
+            if df[day][dtime] == '':
+                    if 'break' in df[1][dtime].lower():
+                        summary = df[1][dtime]
+                    else:
+                        summary = df[day][dtime - 1]
+            else:
+                summary = df[day][dtime]
             timing = df[0][dtime].split('to')
             start_time = next(datefinder.find_dates(str(datetime.date(today)) + f' {timing[0]} pm'))
             end_time = next(datefinder.find_dates(str(datetime.date(today)) + f' {timing[1]} pm'))
@@ -70,10 +77,16 @@ def insert_events(service):
                 }
             }
             event = service.events().insert(calendarId='primary',body=event).execute()
+            eventIds.append(event.get('id'))
         print(f'{datetime.date(today)} done ')
         today = today + timedelta(days=1)
     print('Timetable Successfully uploaded to your Google Calendar')
+    return eventIds
 
-def delete_event(service,eventId):
-    service.events().delete(calendarId='primary',eventId=eventId).execute()
+def delete_events(service,eventIds):
+    if isinstance(eventIds,str):
+        eventIds = [eventsIds]
+    for eventId in eventIds:
+        service.events().delete(calendarId='primary',eventId=eventId).execute()
+
 

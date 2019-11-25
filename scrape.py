@@ -5,9 +5,9 @@ import sys
 
 #URL = 'https://pict.edu/student/time-table-and-syllabus/'
 
-def get_pdf(URL,class_='TE',div_='COMP'):
+def get_pdf(URL,class_='TE',branch_='COMP'):
     year = {'FE':1,'SE':2,'TE':3,'BE':4}
-    div = {'COMP':1,'IT':2,'ENTC':3}
+    branch = {'COMP':1,'IT':2,'ENTC':3}
     
     if class_ == 'FE':
         class_name = 'FE All Div.'
@@ -30,7 +30,7 @@ def get_pdf(URL,class_='TE',div_='COMP'):
             if class_ == 'FE':
                 target = link
                 break
-            elif count == div[div_]:
+            elif count == branch[branch_]:
                 target = link
                 break
             count += 1
