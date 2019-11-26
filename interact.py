@@ -60,8 +60,16 @@ def insert_events(service,df):
             else:
                 summary = df[day][dtime]
             timing = df[0][dtime].split('to')
-            start_time = next(datefinder.find_dates(str(datetime.date(today)) + f' {timing[0]} pm'))
-            end_time = next(datefinder.find_dates(str(datetime.date(today)) + f' {timing[1]} pm'))
+            if timing[0].strip() >= '08:00' and timing[0].strip() < '12:00':
+                period = 'am'
+            else:
+                period = 'pm'
+            start_time = next(datefinder.find_dates(str(datetime.date(today)) + f' {timing[0]} {period}'))
+            if timing[1].strip() >= '08:00' and timing[1].strip() < '12:00':
+                period = 'am'
+            else:
+                period = 'pm'
+            end_time = next(datefinder.find_dates(str(datetime.date(today)) + f' {timing[1]} {period}'))
             timezone = 'Asia/Kolkata'
             event = {
                 'summary':summary,
