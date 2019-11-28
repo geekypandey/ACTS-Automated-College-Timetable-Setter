@@ -6,6 +6,7 @@ certifi==2019.9.11
 chardet==3.0.4
 Click==7.0
 datefinder==0.7.0
+distro==1.4.0
 et-xmlfile==1.0.1
 google-api-python-client==1.7.11
 google-auth==1.7.1
@@ -33,5 +34,6 @@ rsa==4.0
 six==1.13.0
 sortedcontainers==2.1.0
 soupsieve==1.9.5
+tqdm==4.39.0
 uritemplate==3.0.0
 urllib3==1.25.7
