@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup as bs
 import os
 import sys
+from pathlib import Path
 
 #URL = 'https://pict.edu/student/time-table-and-syllabus/'
 
@@ -37,7 +38,10 @@ def get_pdf(URL,class_='TE',branch_='COMP'):
     timetable_pdf = target['href']
 
     print('Downlaoding your timetable......')
-    os.system(f'wget -O timetable.pdf {timetable_pdf}')
+    filename = Path('timetable.pdf')
+    response = requests.get(timetable_pdf)
+    filename.write_bytes(response.content)
+    #os.system(f'wget -O timetable.pdf {timetable_pdf}')
     if os.path.exists('timetable.pdf'):
         print('Successfully donwloaded your timetable.')
     else:
