@@ -36,7 +36,7 @@ def get_pdf(URL,class_='TE',branch_='COMP'):
             count += 1
     timetable_pdf = target['href']
 
-    print('Downlaoding your timetable......')
+    print('Downloading your timetable......')
     os.system(f'wget -O timetable.pdf {timetable_pdf}')
     if os.path.exists('timetable.pdf'):
         print('Successfully donwloaded your timetable.')
