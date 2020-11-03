@@ -1,0 +1,7 @@
+credentials.json
+timetable.pdf
+token.pickle
+events.log
+__pycache__/
+venv/
+*.swp
