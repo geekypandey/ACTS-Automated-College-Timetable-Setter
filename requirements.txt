@@ -23,7 +23,7 @@ opencv-python==4.4.0.46
 openpyxl==3.0.5
 pandas==1.1.4
 pdfminer.six==20201018
-protobuf==3.13.0
+protobuf==3.15.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.20
